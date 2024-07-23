@@ -14,7 +14,6 @@ import re
 from datetime import datetime
 
 # YAML 파일 경로
-
 config_file = "./db_config.yml"
 
 # YAML 파일 읽기
