@@ -14,11 +14,12 @@ import re
 from datetime import datetime
 
 # YAML 파일 경로
-# config_file = "Crawling-Project/db_config.yml"
-#
-# # YAML 파일 읽기
-# with open(config_file, "r") as file:
-#     config = yaml.safe_load(file)
+
+config_file = "./db_config.yml"
+
+# YAML 파일 읽기
+with open(config_file, "r") as file:
+    config = yaml.safe_load(file)
 
 # YAML 파일에서 읽은 설정 사용
 # conn = pymysql.connect(
@@ -39,38 +40,24 @@ service = Service(ChromeDriverManager(chrome_version).install())
 # driver = webdriver.Chrome(service=service)
 
 browser = webdriver.Chrome()
-# browser.find_element(By.CLASS_NAME, "uU7dJb").text
-
-
-# url = "https://www.google.com"
-# browser.get(url)
-
-# url = "https://www.yes24.com/Product/Category/BestSeller?categoryNumber=001&pageNumber=1&pageSize=24"
-# browser.get(url)
-
-# 1페이지 링크 데이터 전부 수집
-### 한 개의 베스트 셀러 링크 수집
-# browser.find_element(By.CLASS_NAME, "gd_name").get_attribute("href")
-
-# ### 1페이지 전체의 링크 데이터
-# # browser.find_element(By.CLASS_NAME, "gd_name") # element: 요소
-# dates = browser.find_elements(By.CLASS_NAME, "gd_name")  # elements: 리스트
 
 # 가게 리스트 (일부만 표시)
 
-url = 'https://product.kyobobook.co.kr/detail/S000001865118'
+url = "https://product.kyobobook.co.kr/detail/S000001865118"
 browser.get(url)
 try:
     element = WebDriverWait(browser, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "book_contents_item"))
     )
-    content = element.get_attribute('innerHTML')
+    content = element.get_attribute("innerHTML")
 
     # <br> 태그를 기준으로 분할
-    items = content.split('<br>')
+    items = content.split("<br>")
 
     # 숫자와 공백을 제거하고 리스트에 추가
-    restaurant_list = [re.sub(r'^\d+\s*', '', item.strip()) for item in items if item.strip()]
+    restaurant_list = [
+        re.sub(r"^\d+\s*", "", item.strip()) for item in items if item.strip()
+    ]
 
     print("Restaurant List:")
     for restaurant in restaurant_list:
@@ -83,20 +70,34 @@ except Exception as e:
 
 url = f"https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query={restaurant_list[0]}"
 browser.get(url)
-a = browser.find_element(By.CLASS_NAME, "iBUwB").get_attribute("href")
-browser.get(a)
-# a = browser.find_element(By.CLASS_NAME, "S8peq").get_attribute("a href")
+link = browser.find_element(By.CLASS_NAME, "iBUwB").get_attribute("href")
+browser.get(link)
 # iframe 전환, Click 대기 상태
 browser.switch_to.frame(browser.find_element(By.ID, "entryIframe"))
 
 # 창 대기
-time.sleep(3)
+time.sleep(2)
 
 # 리뷰
 browser.find_elements(By.CLASS_NAME, "veBoZ")[3].click()
+time.sleep(1)
 
 # 블로그 리뷰
 browser.find_elements(By.CLASS_NAME, "YsfhA")[1].click()
+
+time.sleep(1)
+
+# 블로그 link 수집
+link_list = []
+for i in range(10):
+    a = browser.find_elements(By.CLASS_NAME, "uUMhQ")[i].get_attribute("href")
+    link_list.append(a)
+    print(link_list[i])
+
+# 10개 블로거에 대한, Content, 블로거
+
+
+# dw
 
 
 # browser.find_element(By.CLASS_NAME, "gd_name").get_attribute("href")
