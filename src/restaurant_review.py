@@ -1,4 +1,4 @@
-from dbconfig import DBConfig
+from src.databases.dbconfig import DBConfig
 from webcrawler import WebCrawler
 from restaurant_scraper import RestaurantScraper
 from review_scraper import ReviewScraper
