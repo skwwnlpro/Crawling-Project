@@ -42,8 +42,8 @@ class DBConfig:
             raise ValueError("Contents must be 100 characters or less.")
 
         with self.connection.cursor() as cursor:
-            sql = "INSERT INTO Blog (restaurant_id, title, contents, blog_start) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(sql, (restaurant_id, title, contents, status))
+            sql = "INSERT INTO Blog (restaurant_id, title, contents, blog_start, blog_complete) VALUES (%s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (restaurant_id, title, contents, blog_start, blog_complete))
             self.connection.commit()
 
     def get_restaurants(self):

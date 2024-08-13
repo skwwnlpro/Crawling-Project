@@ -29,12 +29,13 @@ class RestaurantReview:
             
             # 블로그 리뷰 수집 시작 시간 기록
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            self.db_manager.up
             
             blog_links = self.review_scraper.get_blog_links(restaurant_title)
             for link in blog_links:
                 title, contents = self.review_scraper.get_blog_content(link)
                 if title and contents:
+                    # 블로그 리뷰 수집 완료 시간 기록
+                    end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     self.db_manager.insert_review(
                         restaurant_id, title, contents, "completed"
                     )
