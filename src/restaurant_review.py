@@ -1,11 +1,11 @@
 from src.databases.dbconfig import DBConfig
-from webcrawler import WebCrawler
+from src.web_crawler import WebCrawler
 from restaurant_scraper import RestaurantScraper
 from review_scraper import ReviewScraper
 import time
+from datetime import datetime
 
-
-# Restaurant을 수집하고 DB에 저장하는 기능
+# 명시한 매소드들에 맞춰 DB에 데이터를 넣는 클래스로 전달
 class RestaurantReview:
     def __init__(self, config_file, chrome_version):
         self.db_manager = DBConfig(config_file)
@@ -26,6 +26,11 @@ class RestaurantReview:
             restaurant_id = restaurant["restaurant_id"]
             restaurant_title = restaurant["title"]
             print(f"Processing restaurant: {restaurant_title}")
+            
+            # 블로그 리뷰 수집 시작 시간 기록
+            start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.db_manager.up
+            
             blog_links = self.review_scraper.get_blog_links(restaurant_title)
             for link in blog_links:
                 title, contents = self.review_scraper.get_blog_content(link)

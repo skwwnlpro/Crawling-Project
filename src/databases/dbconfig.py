@@ -3,6 +3,8 @@ import pymysql.cursors
 import yaml
 
 
+# DB Config를 받아서 직접 연결
+# 데이터를 받아서 실제 DB에 쿼리 실행하는 메소드들 모음
 class DBConfig:
     def __init__(self, config_file):
         self.config = self.load_config(config_file)
@@ -26,19 +28,21 @@ class DBConfig:
             ),
         )
 
+    # 가게 이름 넣기
     def insert_restaurant(self, title):
         with self.connection.cursor() as cursor:
             sql = "INSERT INTO Restaurant (title) VALUES (%s)"
             cursor.execute(sql, (title,))
             self.connection.commit()
 
+    # 가게 ID에 대한 블로그 제목/내용
     def insert_review(self, restaurant_id, title, contents, status):
         # Contents 내용 길이 확인
         if len(contents) > 100:
             raise ValueError("Contents must be 100 characters or less.")
 
         with self.connection.cursor() as cursor:
-            sql = "INSERT INTO Blog (restaurant_id, title, contents, status) VALUES (%s, %s, %s, %s)"
+            sql = "INSERT INTO Blog (restaurant_id, title, contents, blog_start) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(sql, (restaurant_id, title, contents, status))
             self.connection.commit()
 
