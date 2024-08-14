@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import time
-from src.databases.dbconfig import DBConfig
+from databases.dbconfig import DBConfig
 
 
 class ReviewScraper:

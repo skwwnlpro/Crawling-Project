@@ -36,14 +36,18 @@ class DBConfig:
             self.connection.commit()
 
     # 가게 ID에 대한 블로그 제목/내용
-    def insert_review(self, restaurant_id, title, contents, status):
+    def insert_review(
+        self, restaurant_id, title, contents, blog_start_time, blog_end_time
+    ):
         # Contents 내용 길이 확인
         if len(contents) > 100:
             raise ValueError("Contents must be 100 characters or less.")
 
         with self.connection.cursor() as cursor:
-            sql = "INSERT INTO Blog (restaurant_id, title, contents, blog_start, blog_complete) VALUES (%s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, (restaurant_id, title, contents, blog_start, blog_complete))
+            sql = "INSERT INTO Blog (restaurant_id, title, contents, blog_start_time, blog_end_time) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(
+                sql, (restaurant_id, title, contents, blog_start_time, blog_end_time)
+            )
             self.connection.commit()
 
     def get_restaurants(self):

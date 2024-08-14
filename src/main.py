@@ -2,12 +2,11 @@ from restaurant_review import RestaurantReview
 import os
 
 cd = os.getcwd()
-print(cd)
 
 
 def main():
     # YAML 파일 경로
-    config_file = f"{cd}\src\db_config.yml"
+    config_file = f"{cd}\src\config\db_config.yml"
 
     # 드라이버 버전 직접 명시
     chrome_version = "126.0.6478.182"
